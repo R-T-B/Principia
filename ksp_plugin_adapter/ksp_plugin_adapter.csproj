@@ -1,53 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E75B3F05-D64F-4AFE-9493-2F94A9B37510}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>principia.ksp_plugin_adapter</RootNamespace>
-    <AssemblyName>principia.ksp_plugin_adapter</AssemblyName>
+    <AssemblyName>ksp_plugin_adapter</AssemblyName>
+	<TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <PlatformTarget>x64</PlatformTarget>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Debug\GameData\Principia\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;KSP_VERSION_1_12_5</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\GameData\Principia\</OutputPath>
-    <DefineConstants>TRACE;KSP_VERSION_1_12_5</DefineConstants>
+    <DefineConstants>KSP_VERSION_1_12_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release KSP 1.7.3|AnyCPU'">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Release\1.7.3 compatibility\GameData\Principia\</OutputPath>
-    <DefineConstants>TRACE;KSP_VERSION_1_7_3</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
+      <PropertyGroup>
+        <OutputDirectory>/ksp_plugin_adapter/bin/</OutputDirectory>
+        <DebugDirectory>/ksp_plugin_adapter/obj/</DebugDirectory>
+    </PropertyGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release KSP 1.7.3'">
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\KSP Assemblies\1.7.3\Assembly-CSharp.dll</HintPath>
@@ -222,10 +204,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="Rename" AfterTargets="AfterBuild">
-    <Move SourceFiles="$(TargetPath)" DestinationFiles="$(OutDir)$(ProjectName)$(TargetExt)" />
-    <Message Text="Renamed $(TargetPath) to $(OutDir)$(ProjectName)$(TargetExt)" Importance="high" />
-    <Move SourceFiles="$(OutDir)$(TargetName).pdb" DestinationFiles="$(OutDir)$(ProjectName).pdb" />
-    <Message Text="Renamed $(OutDir)$(TargetName).pdb to $(OutDir)$(ProjectName).pdb" Importance="high" />
-  </Target>
 </Project>

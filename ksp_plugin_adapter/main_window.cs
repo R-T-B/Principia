@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using KSP.Localization;
 
@@ -144,23 +144,6 @@ internal class MainWindow : VesselSupervisedWindowRenderer {
         UnityEngine.GUILayout.Label(
             text : L10N.CacheFormat("#Principia_MainWindow_PluginNotStarted"),
             style : Style.Warning(UnityEngine.GUI.skin.label));
-      }
-      if (DateTimeOffset.Now > next_release_date_) {
-        if (Versioning.version_minor <= 7) {
-          UnityEngine.GUILayout.TextArea(
-              L10N.CacheFormat(
-                  "#Principia_MainWindow_NewMoonAnnouncementWithKspDeprecation",
-                  next_release_lunation_number,
-                  next_release_name,
-                  "1.8.1"),
-              style : Style.Multiline(UnityEngine.GUI.skin.textArea));
-        } else {
-          UnityEngine.GUILayout.TextArea(
-              L10N.CacheFormat("#Principia_MainWindow_NewMoonAnnouncement",
-                               next_release_lunation_number,
-                               next_release_name ),
-              style: Style.Multiline(UnityEngine.GUI.skin.textArea));
-        }
       }
       Interface.GetVersion(build_date : out string _,
                            version    : out string version);

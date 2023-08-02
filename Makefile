@@ -6,7 +6,7 @@ UNAME_S := $(shell uname -s)
 UNAME_M := $(shell uname -m)
 
 CXX := clang++
-MSBUILD := msbuild
+MSBUILD := xbuild
 
 VERSION_TRANSLATION_UNIT := base/version.generated.cc
 
@@ -84,7 +84,7 @@ endif
 LIBS          := $(DEP_DIR)protobuf/src/.libs/libprotobuf.a \
 	$(DEP_DIR)gipfeli/libgipfeli.a \
 	$(ABSL_GROUP_LIBS) \
-	$(DEP_DIR)zfp/build/lib/libzfp.a \
+	$(DEP_DIR)zfp/build/lib64/libzfp.a \
 	$(DEP_DIR)glog/.libs/libglog.a -lpthread -lc++ -lc++abi
 TEST_INCLUDES := \
 	-I$(DEP_DIR)googletest/googlemock/include -I$(DEP_DIR)googletest/googletest/include \
@@ -96,6 +96,8 @@ INCLUDES      := -I. -I$(DEP_DIR)glog/src \
 	-I$(DEP_DIR)zfp/include
 SHARED_ARGS   := \
 	-std=c++20 -stdlib=libc++ -O3 -g                              \
+	-march=znver4                                                 \
+	-mfma                                                         \
 	-fPIC -fexceptions -ferror-limit=1000 -fno-omit-frame-pointer \
 	-fno-char8_t                                                  \
 	-Wall -Wpedantic                                              \
@@ -311,16 +313,11 @@ benchmark: $(PRINCIPIA_BENCHMARK_BIN)
 ########## Adapter
 
 $(ADAPTER): $(GENERATED_PROFILES)
-	$(MSBUILD) -p:Configuration=$(ADAPTER_CONFIGURATION) ksp_plugin_adapter/ksp_plugin_adapter.csproj
+	$(MSBUILD) ksp_plugin_adapter/ksp_plugin_adapter.csproj
 
 ######### Distribution
 
-# Something got broken in Disco where building the adapter is no longer possible
-# because /usr/lib/mono/msbuild/15.0/bin/System.Reflection.Metadata.dll points
-# to a missing Roslyn directory.  We don't care, we don't use the adapter built
-# on Linux
-# release: $(ADAPTER) $(KSP_PLUGIN)
-release: $(KSP_PLUGIN)
+release: $(ADAPTER) $(KSP_PLUGIN)
 	cd $(FINAL_PRODUCTS_DIR); tar -c -z -f - GameData/ > principia_$(UNAME_S)-$(shell git describe --tags --always --dirty --abbrev=40 --long).tar.gz
 ########## Cleaning
 
